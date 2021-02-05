@@ -1,0 +1,52 @@
+input {
+    padding: .5em;
+    margin: 0;
+    border: none;
+    width: 1em;
+    height: 1em;
+    font-size: 1em;
+    line-height: 1em;
+    text-align: center;
+}
+
+.sudokuGrid input:nth-child(3n) {
+    border-right: 2px solid #00e;
+}
+.sudokuGrid input:nth-child(9n) {
+    border-right: none;
+}
+.sudokuGrid input:nth-child(n+19):nth-child(-n+27),
+.sudokuGrid input:nth-child(n+46):nth-child(-n+54){
+    border-bottom: 2px solid #00e;
+}
+
+.sudokuGrid {
+    margin: 20px auto;
+    border: 2px solid lightskyblue;
+    padding: 0;
+    width: calc(18em + 5px);
+    height: calc(18em + 5px);
+}
+
+.centerstyle {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/*
+.canvasOverlay {
+    position: absolute;
+    width: 100%;
+    pointer-events: none;
+}
+
+canvas {
+    display:flex;
+    top: auto;
+    margin:auto;
+}
+
+ */
