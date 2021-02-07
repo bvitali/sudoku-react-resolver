@@ -4,7 +4,7 @@ export type gridRange = 0 | 1 | 2 | 3 | 4 | 5 | 6 |7 | 8
 export type valueRange = 1 | 2 | 3 | 4 | 5 | 6 |7 | 8 | 9
 
 export interface callBackType {
-    (newBoard:number[]) : void
+    (newBoard:number[], index:number) : void
 }
 
 class QuadrantRange {
@@ -84,14 +84,11 @@ export class SudokuGrid {
         return this.board[row * 9 + col]
     }
 
-    private async setItem( index:number, val:number, callback?: callBackType)  {
+    setItem( index:number, val:number, callback?: callBackType)  {
         this.board[index] = val
         if (callback) {
-            console.log("Before sleep: " + new Date().toString());
-            callback(this.board)
-            await this.delay(1000)
-            console.log("After sleep:  " + new Date().toString());
-        }
+            callback(this.board, index)
+         }
     }
 
     isRowValid(row:gridRange, col:gridRange, val:valueRange):boolean {
@@ -204,20 +201,22 @@ export class SudokuGrid {
         })
     }
 
-
     resolve( iterations:number = 0, startingIndex:number = 0, callback?:callBackType):boolean  {
+
+        // the callback to track progress during the iterations works on the console but not in React
 
         iterations++
 //        console.log(`Recursive Iteration: ${iterations}`)
 //    console.log(`${sudoku}`)
 //    console.log(sudoku.candidateSet)
 
+        while (this.board[startingIndex] > 0 && startingIndex <81) {
+            // skip the cells with a non zero value
+            startingIndex++
+        }
         if (startingIndex === 81)
             return true
         let i = startingIndex
-        if (this.board[i] > 0) {
-            return this.resolve( iterations, i + 1, callback)
-        }
         let row = (i/9) >> 0
         let col = i % 9
 //    console.log(`current item[${row},${col}], index:${i}`)
@@ -238,7 +237,7 @@ export class SudokuGrid {
 
 //            console.log(`===== after setting ${candidateValue}  in (${row}, ${col}`)
 
-                if (this.resolve( iterations, i + 1)) {
+                if (this.resolve( iterations, i + 1, callback)) {
                     // the candidate reached a valid solution
                     // exit
                     return true
