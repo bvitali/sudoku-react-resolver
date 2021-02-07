@@ -1,3 +1,7 @@
+Simple React UI to apply the sudoku-resolver-ts algorithm to a sudoky matrix implemented as React functional component.
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
